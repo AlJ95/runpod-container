@@ -19,7 +19,7 @@ ai-inference-server/
 │   └── services.env        # Service ports and settings
 ├── scripts/                # Installation and startup scripts
 │   ├── system_deps.sh      # System dependencies
-│   ├── python_setup.sh     # Python environment
+│   ├── setup.sh            # Python environment
 │   └── entrypoint.sh       # Main entrypoint
 ├── src/                    # Application code
 │   ├── audio_service/      # Faster-Whisper FastAPI service
@@ -90,7 +90,7 @@ Edit the configuration files before building:
 **Setup Instructions**:
 ```bash
 # Use the provided setup script
-./scripts/python_setup.sh
+./scripts/setup.sh
 
 # This will create both environments and install dependencies separately
 ```
@@ -220,7 +220,7 @@ The server implements intelligent VRAM allocation for stable multi-service opera
 
 2. Set up Python environment:
    ```bash
-   ./scripts/python_setup.sh
+   ./scripts/setup.sh
    ```
 
 3. Start services:

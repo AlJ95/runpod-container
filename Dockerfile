@@ -39,13 +39,11 @@ RUN apt-get update -qq && \
     pip install uv
 
 # Set up Python environment
-COPY scripts/python_setup.sh /tmp/python_setup.sh
-RUN chmod +x /tmp/python_setup.sh && \
-    /tmp/python_setup.sh && \
-    rm /tmp/python_setup.sh
+RUN chmod +x scripts/setup.sh && \
+    ./scripts/setup.sh
 
 # Make scripts executable
-RUN chmod +x scripts/entrypoint.sh
+RUN chmod +x scripts/*.sh
 
 # Set environment variables
 ENV PYTHONPATH=/app
