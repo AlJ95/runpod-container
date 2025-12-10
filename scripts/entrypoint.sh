@@ -28,7 +28,7 @@ export HF_HUB_ENABLE_HF_TRANSFER=1
 # Check for HF_TOKEN
 [ -z "$HF_TOKEN" ] && echo "WARNING: HF_TOKEN is not set."
 
-echo ">>> Starting AI Inference Services..."
+echo ">>> Starting AI Inference Services (Unified Environment)..."
 
 # Start Whisper Service in background
 bash scripts/start_whisper.sh &

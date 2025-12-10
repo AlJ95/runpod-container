@@ -1,0 +1,35 @@
+# Unified Requirements for RunPod Container
+# Combined dependencies for vLLM, Whisper, and TTS
+
+# Core AI/ML Frameworks
+torch
+torchaudio
+vllm==0.10.2
+
+# Whisper Service
+faster-whisper
+tokenizers
+
+# TTS Service (VibeVoice)
+transformers>=4.41.0,<4.56
+diffusers>=0.27.0
+soundfile
+librosa
+accelerate
+
+# API & Server
+fastapi
+uvicorn
+python-multipart
+runpod
+
+# Utilities & Infrastructure
+huggingface-hub
+hf_transfer
+numpy
+
+# NVIDIA CUDA Libraries (Required for CTranslate2/Whisper in this environment)
+nvidia-cublas-cu12
+nvidia-cudnn-cu12
+nvidia-cuda-nvrtc-cu12
+nvidia-cuda-runtime-cu12

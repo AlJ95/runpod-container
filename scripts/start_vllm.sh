@@ -4,8 +4,14 @@ set -e
 
 echo ">>> [vLLM] Starting vLLM Service..."
 
-# Activate vLLM environment
-source .venv_vllm/bin/activate
+# Activate unified environment
+source .venv/bin/activate
+
+# Set NVIDIA library paths (Robust check)
+echo ">>> [vLLM] Setting up LD_LIBRARY_PATH..."
+export LD_LIBRARY_PATH=$(python3 -c 'import os; import nvidia.cublas.lib; import nvidia.cudnn.lib; 
+def get_path(m): return os.path.dirname(m.__file__) if hasattr(m, "__file__") and m.__file__ else list(m.__path__)[0] if hasattr(m, "__path__") else ""; 
+print(get_path(nvidia.cublas.lib) + ":" + get_path(nvidia.cudnn.lib))'):$LD_LIBRARY_PATH
 
 # Build vLLM command
 VLLM_CMD="vllm serve $MODEL_NAME"
