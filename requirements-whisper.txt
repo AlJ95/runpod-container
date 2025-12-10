@@ -17,3 +17,4 @@ nvidia-cuda-runtime-cu12==12.1.105
 
 # Whisper-specific dependencies
 tokenizers==0.15.1
+hf_transfer

@@ -23,7 +23,7 @@ TTS_SERVICE_PORT=${TTS_SERVICE_PORT:-5000}
 
 # Set up VibeVoice directory structure
 echo ">>> Setting up VibeVoice directory structure..."
-VIBEVOICE_SRC="vibevoice"
+VIBEVOICE_SRC="src/tts_service/vibevoice"
 VIBEVOICE_DEST="src/vibevoice_core"
 
 # Check if VibeVoice source directory exists
@@ -54,7 +54,8 @@ if [ ! -d "$VOICES_DIR" ]; then
 fi
 
 # Set NVIDIA library paths for CTranslate2/Whisper
-export LD_LIBRARY_PATH=$(python3 -c 'import os; import nvidia.cublas.lib; import nvidia.cudnn.lib; print(os.path.dirname(nvidia.cublas.lib.__file__) + ":" + os.path.dirname(nvidia.cudnn.lib.__file__))'):$LD_LIBRARY_PATH
+# Use vLLM venv python because it has the nvidia libraries installed
+export LD_LIBRARY_PATH=$(.venv_vllm/bin/python3 -c 'import os; import nvidia.cublas.lib; import nvidia.cudnn.lib; print(os.path.dirname(nvidia.cublas.lib.__file__) + ":" + os.path.dirname(nvidia.cudnn.lib.__file__))'):$LD_LIBRARY_PATH
 
 # Set PYTHONPATH to include vibevoice_core
 export PYTHONPATH="${PYTHONPATH}:$(pwd)/src"
