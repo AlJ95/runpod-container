@@ -16,6 +16,16 @@ apt-get install -y -qq \
     git \
     libsndfile1 \
     curl \
-    ca-certificates
+    ca-certificates \
+    pkg-config \
+    build-essential \
+    cmake \
+    libavdevice-dev \
+    libavfilter-dev \
+    libavformat-dev \
+    libavcodec-dev \
+    libswresample-dev \
+    libswscale-dev \
+    libavutil-dev
 
 echo ">>> System dependencies installed successfully."

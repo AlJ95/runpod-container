@@ -22,9 +22,20 @@ COPY . .
 # Create voices directory
 RUN mkdir -p voices
 
-# Install Python and uv
+# Install Python, uv, and build dependencies
 RUN apt-get update -qq && \
-    apt-get install -y -qq python3 python3-pip && \
+    apt-get install -y -qq python3 python3-pip \
+    pkg-config \
+    build-essential \
+    cmake \
+    git \
+    libavdevice-dev \
+    libavfilter-dev \
+    libavformat-dev \
+    libavcodec-dev \
+    libswresample-dev \
+    libswscale-dev \
+    libavutil-dev && \
     pip install uv
 
 # Set up Python environment
