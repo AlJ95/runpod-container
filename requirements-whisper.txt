@@ -1,0 +1,19 @@
+# Whisper Service Requirements
+# Faster-Whisper with all dependencies
+
+# Core Whisper dependencies
+faster-whisper==0.10.0
+
+# API dependencies
+fastapi==0.110.0
+uvicorn==0.27.0
+python-multipart==0.0.6
+
+# NVIDIA CUDA libraries
+nvidia-cublas-cu12==12.1.3.1
+nvidia-cudnn-cu12==8.9.2.26
+nvidia-cuda-nvrtc-cu12==12.1.105
+nvidia-cuda-runtime-cu12==12.1.105
+
+# Whisper-specific dependencies
+tokenizers==0.15.1

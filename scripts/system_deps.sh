@@ -11,21 +11,9 @@ echo ">>> Installing system dependencies..."
 apt-get update -qq
 
 # Install required packages
-apt-get install -y -qq \
-    ffmpeg \
-    git \
-    libsndfile1 \
-    curl \
-    ca-certificates \
-    pkg-config \
-    build-essential \
-    cmake \
-    libavdevice-dev \
-    libavfilter-dev \
-    libavformat-dev \
-    libavcodec-dev \
-    libswresample-dev \
-    libswscale-dev \
-    libavutil-dev
+RUN apt-get update && apt-get install -y \
+    ffmpeg libsndfile1 git \
+    python3 python3-pip \
+    && rm -rf /var/lib/apt/lists/*
 
 echo ">>> System dependencies installed successfully."

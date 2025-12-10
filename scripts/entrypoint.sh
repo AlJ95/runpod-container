@@ -67,17 +67,17 @@ export HF_HUB_ENABLE_HF_TRANSFER=1
 
 echo ">>> Starting AI Inference Services with dual venv approach..."
 
-# Start Whisper Service in background (using Audio/TTS venv)
+# Start Whisper Service in background (using Whisper venv)
 echo ">>> Starting Whisper Service (Port $AUDIO_SERVICE_PORT)..."
-source .venv_audio_tts/bin/activate
+source .venv_whisper/bin/activate
 python3 src/audio_service/main.py &
 WHISPER_PID=$!
 echo "Whisper Service PID: $WHISPER_PID"
 deactivate
 
-# Start TTS Service in background (using Audio/TTS venv)
+# Start TTS Service in background (using TTS venv)
 echo ">>> Starting VibeVoice TTS Service (Port $TTS_SERVICE_PORT)..."
-source .venv_audio_tts/bin/activate
+source .venv_tts/bin/activate
 python3 src/tts_service/main.py &
 TTS_PID=$!
 echo "TTS Service PID: $TTS_PID"
