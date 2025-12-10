@@ -60,7 +60,7 @@ async def transcribe_audio(file: UploadFile = File(...)):
             shutil.copyfileobj(file.file, buffer)
 
         # Transcribe audio
-        segments, info = model.transcribe(temp_filename, beam_size=5)
+        segments, info = model.transcribe(temp_filename, beam_size=5, vad_filter=True, vad_parameters=dict(min_silence_duration_ms=500))
 
         # Build full text
         full_text = "".join([segment.text for segment in segments])
