@@ -19,6 +19,13 @@ echo ">>> [vLLM] Using model: $VLLM_MODEL"
 VLLM_CMD+=" --host $HOST"
 VLLM_CMD+=" --port $PORT"
 VLLM_CMD+=" --gpu-memory-utilization $GPU_MEMORY_UTILIZATION"
+
+# Add tokenizer if specified (required for GGUF models)
+if [ -n "$VLLM_TOKENIZER" ]; then
+    echo ">>> [vLLM] Using tokenizer: $VLLM_TOKENIZER"
+    VLLM_CMD+=" --tokenizer $VLLM_TOKENIZER"
+fi
+
 VLLM_CMD+="${EXTRA_VLLM_ARGS}"
 
 if [ "$ASYNC_SCHEDULING" = "true" ]; then

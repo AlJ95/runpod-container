@@ -6,6 +6,7 @@ torch
 torchaudio
 vllm==0.10.2
 bitsandbytes
+llmcompressor
 
 # Whisper Service
 faster-whisper

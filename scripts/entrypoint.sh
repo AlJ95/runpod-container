@@ -28,6 +28,28 @@ export TTS_MODEL=${TTS_MODEL:-"aoi-ot/VibeVoice-7B"}
 export VLLM_MODEL=${VLLM_MODEL:-"openai/gpt-oss-20b"}
 export SST_MODEL=${SST_MODEL:-"large-v3"}
 
+# Handle GGUF model download if specified
+if [ -n "$GGUF_MODEL_URL" ]; then
+    echo ">>> [GGUF] Dynamic GGUF model download enabled"
+    echo ">>> [GGUF] Downloading model from: $GGUF_MODEL_URL"
+
+    # Download the GGUF model
+    MODEL_PATH=$(bash scripts/download_gguf_model.sh "$GGUF_MODEL_URL")
+    export VLLM_MODEL="$MODEL_PATH"
+
+    # Check if tokenizer is specified
+    if [ -n "$TOKENIZER_MODEL" ]; then
+        echo ">>> [GGUF] Using tokenizer: $TOKENIZER_MODEL"
+        export VLLM_TOKENIZER="$TOKENIZER_MODEL"
+    else
+        echo "WARNING: GGUF model specified but no TOKENIZER_MODEL set"
+        echo "Please set TOKENIZER_MODEL to the base model of your GGUF model"
+    fi
+
+    echo ">>> [GGUF] Configuration complete"
+    echo ">>> [GGUF] Model path: $VLLM_MODEL"
+fi
+
 # Enable HF transfer globally
 export HF_HUB_ENABLE_HF_TRANSFER=1
 

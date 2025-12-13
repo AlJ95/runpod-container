@@ -253,3 +253,25 @@ The server implements intelligent VRAM allocation for stable multi-service opera
 ## License
 
 MIT License - See LICENSE file for details
+
+## GGUF Model Support
+
+### Quick Start
+```bash
+docker run --gpus all \
+           -e GGUF_MODEL_URL="https://huggingface.co/unsloth/gpt-oss-20b-GGUF/resolve/main/gpt-oss-20b-Q6_K.gguf" \
+           -e TOKENIZER_MODEL="unsloth/gpt-oss-20b" \
+           ai-inference-server
+```
+
+### Configuration
+- `GGUF_MODEL_URL`: Hugging Face GGUF model URL
+- `TOKENIZER_MODEL`: Base model for tokenizer (required)
+
+### Features
+- Automatic download to `/workspace/models/gguf/`
+- Model caching for fast subsequent starts
+- Works with unsloth GGUF models
+- Persistent storage in workspace
+
+⚠️ **Required**: Always set `TOKENIZER_MODEL` when using GGUF models
