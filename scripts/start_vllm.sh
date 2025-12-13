@@ -19,6 +19,7 @@ echo ">>> [vLLM] Using model: $VLLM_MODEL"
 VLLM_CMD+=" --host $HOST"
 VLLM_CMD+=" --port $PORT"
 VLLM_CMD+=" --gpu-memory-utilization $GPU_MEMORY_UTILIZATION"
+VLLM_CMD+="${EXTRA_VLLM_ARGS}"
 
 if [ "$ASYNC_SCHEDULING" = "true" ]; then
     VLLM_CMD+=" --async-scheduling"
