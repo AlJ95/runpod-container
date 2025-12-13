@@ -14,10 +14,6 @@ fi
 # Activate unified environment
 source .venv/bin/activate
 
-# Ensure TTS service gets the correct model name
-# Use TTS_MODEL_NAME if set, otherwise fall back to MODEL_NAME
-export MODEL_NAME=${TTS_MODEL_NAME:-${MODEL_NAME:-"microsoft/VibeVoice-7B"}}
-
 # Set PYTHONPATH to include src/tts_service so 'vibevoice' can be imported directly
 # We also keep $(pwd)/src for other potential imports
 export PYTHONPATH="${PYTHONPATH}:$(pwd)/src:$(pwd)/src/tts_service"
@@ -30,5 +26,5 @@ print(get_path(nvidia.cublas.lib) + ":" + get_path(nvidia.cudnn.lib) + ":" + os.
 
 # Start the service
 echo ">>> [TTS] Executing service..."
-echo ">>> [TTS] Using model: $MODEL_NAME"
+echo ">>> [TTS] Using model: $TTS_MODEL"
 exec python3 src/tts_service/main.py

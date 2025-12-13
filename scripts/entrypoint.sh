@@ -6,13 +6,12 @@ set -e
 
 # Load configuration from environment files
 if [ -f "config/vllm_config.env" ]; then
+    # Source the file to evaluate the ${VAR:-default} syntax properly
     source config/vllm_config.env
 fi
 
-# Save vLLM model name before loading services config
-VLLM_MODEL_NAME=${MODEL_NAME}
-
 if [ -f "config/services.env" ]; then
+    # Source the file to evaluate the ${VAR:-default} syntax properly
     source config/services.env
 fi
 
@@ -24,11 +23,10 @@ export ASYNC_SCHEDULING=${ASYNC_SCHEDULING:-true}
 export TTS_SERVICE_PORT=${TTS_SERVICE_PORT:-5000}
 export AUDIO_SERVICE_PORT=${AUDIO_SERVICE_PORT:-6000}
 
-# Ensure proper environment isolation for both services
-# TTS service should use MODEL_NAME from services.env
-export TTS_MODEL_NAME=${MODEL_NAME}
-# vLLM service should use MODEL_NAME from vllm_config.env
-export VLLM_MODEL_NAME=${VLLM_MODEL_NAME}
+# Export model variables for each service using the unified naming convention
+export TTS_MODEL=${TTS_MODEL:-"aoi-ot/VibeVoice-7B"}
+export VLLM_MODEL=${VLLM_MODEL:-"openai/gpt-oss-20b"}
+export SST_MODEL=${SST_MODEL:-"large-v3"}
 
 # Enable HF transfer globally
 export HF_HUB_ENABLE_HF_TRANSFER=1
