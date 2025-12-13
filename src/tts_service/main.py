@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI(title="VibeVoice TTS Service")
 
 # --- Configuration ---
-MODEL_NAME = os.getenv("MODEL_NAME", "vibevoice/VibeVoice-7B")
+MODEL_NAME = os.getenv("MODEL_NAME", "microsoft/VibeVoice-7B")
 DEFAULT_LANGUAGE = os.getenv("LANGUAGE", "en")
 HF_TOKEN = os.getenv("HF_TOKEN", None)
 TTS_SERVICE_HOST = os.getenv("TTS_SERVICE_HOST", "0.0.0.0")

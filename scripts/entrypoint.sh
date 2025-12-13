@@ -9,18 +9,26 @@ if [ -f "config/vllm_config.env" ]; then
     source config/vllm_config.env
 fi
 
+# Save vLLM model name before loading services config
+VLLM_MODEL_NAME=${MODEL_NAME}
+
 if [ -f "config/services.env" ]; then
     source config/services.env
 fi
 
 # Set default values if not set
-export MODEL_NAME=${MODEL_NAME:-"openai/gpt-oss-20b"}
 export HOST=${HOST:-"0.0.0.0"}
 export PORT=${PORT:-8000}
 export GPU_MEMORY_UTILIZATION=${GPU_MEMORY_UTILIZATION:-0.65}
 export ASYNC_SCHEDULING=${ASYNC_SCHEDULING:-true}
 export TTS_SERVICE_PORT=${TTS_SERVICE_PORT:-5000}
 export AUDIO_SERVICE_PORT=${AUDIO_SERVICE_PORT:-6000}
+
+# Ensure proper environment isolation for both services
+# TTS service should use MODEL_NAME from services.env
+export TTS_MODEL_NAME=${MODEL_NAME}
+# vLLM service should use MODEL_NAME from vllm_config.env
+export VLLM_MODEL_NAME=${VLLM_MODEL_NAME}
 
 # Enable HF transfer globally
 export HF_HUB_ENABLE_HF_TRANSFER=1
