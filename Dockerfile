@@ -16,11 +16,15 @@ FROM nvidia/cuda:12.1.1-runtime-ubuntu22.04
 # Set working directory
 WORKDIR /app
 
-# Copy all files except vibevoice directory
+# Copy all files
 COPY . .
 
-# Create voices directory
-RUN mkdir -p voices
+# Create voices directory + external
+RUN mkdir -p voices external
+
+# Build-time clone of CosyVoice (includes Matcha-TTS submodule)
+RUN rm -rf external/cosyvoice && \
+    git clone --recursive https://github.com/FunAudioLLM/CosyVoice.git external/cosyvoice
 
 # Install Python, uv, and build dependencies
 RUN apt-get update -qq && \
@@ -46,7 +50,7 @@ RUN chmod +x scripts/setup.sh && \
 RUN chmod +x scripts/*.sh
 
 # Set environment variables
-ENV PYTHONPATH=/app
+ENV PYTHONPATH=/app:/app/src:/app/external/cosyvoice:/app/external/cosyvoice/third_party/Matcha-TTS:/app/external/vibevoice
 ENV PATH=/app/.venv/bin:$PATH
 
 # Expose ports

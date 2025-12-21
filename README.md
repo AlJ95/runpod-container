@@ -1,6 +1,11 @@
 # AI Inference Server for RunPod
 
-Multi-Model AI Inference Server designed to run on RunPod with multiple RTX GPUs. This server provides LLM (vLLM), STT (Faster-Whisper), and future TTS (VibeVoice) services in a single Docker container.
+Multi-Model AI Inference Server designed to run on RunPod with multiple RTX GPUs. This server provides:
+- LLM (vLLM)
+- STT (Faster-Whisper *oder* Moonshine)
+- TTS (CosyVoice *oder* VibeVoice)
+
+All services run in a single Docker container.
 
 ## Features
 
@@ -14,21 +19,26 @@ Multi-Model AI Inference Server designed to run on RunPod with multiple RTX GPUs
 
 ```
 ai-inference-server/
-├── config/                 # Configuration files
-│   ├── vllm_config.env     # vLLM server parameters
-│   └── services.env        # Service ports and settings
-├── scripts/                # Installation and startup scripts
-│   ├── system_deps.sh      # System dependencies
-│   ├── setup.sh            # Python environment
-│   └── entrypoint.sh       # Main entrypoint
-├── src/                    # Application code
-│   ├── audio_service/      # Faster-Whisper FastAPI service
-│   │   ├── __init__.py
-│   │   └── main.py
-│   └── tts_service/        # Future VibeVoice integration
-├── requirements.txt        # Python dependencies
-├── Dockerfile              # Container configuration
-└── README.md               # This file
+├── config/
+│   └── config.env          # Grouped configuration (sourced by entrypoint)
+├── scripts/
+│   ├── setup.sh
+│   ├── entrypoint.sh
+│   ├── start_stt.sh
+│   ├── start_tts.sh
+│   └── start_llm.sh
+├── src/
+│   ├── entrypoint.py       # Orchestrates STT+TTS background, LLM foreground
+│   ├── stt/                # STT service + backends
+│   ├── tts/                # TTS service + backends
+│   └── llm/                # vLLM runner
+├── external/
+│   ├── cosyvoice/          # CosyVoice repo (build-time clone in Docker)
+│   └── vibevoice/          # VibeVoice code
+├── tests/                  # Backend tests (start service.py with env)
+├── requirements.txt
+├── Dockerfile
+└── README.md
 ```
 
 ## Services
@@ -80,22 +90,14 @@ Edit the configuration files before building:
    VIBEVOICE_VOICES_DIR="voices"
    ```
 
-### Dual Virtual Environment Setup
+### Python Environment Setup
 
-**Important**: This project uses separate virtual environments to resolve dependency conflicts:
+This project uses a single unified virtual environment:
 
-- `.venv_vllm/` - For vLLM service (requires newer tokenizers)
-- `.venv_audio_tts/` - For Whisper + TTS services (requires older tokenizers)
-
-**Setup Instructions**:
 ```bash
-# Use the provided setup script
 ./scripts/setup.sh
-
-# This will create both environments and install dependencies separately
+source .venv/bin/activate
 ```
-
-**Do NOT** install all dependencies in a single environment - use the provided script.
 
 ### VibeVoice Setup (Required)
 
@@ -227,6 +229,20 @@ The server implements intelligent VRAM allocation for stable multi-service opera
    ```bash
    ./scripts/entrypoint.sh
    ```
+
+### Backend selection (ENV)
+
+#### STT
+- `STT_BACKEND=moonshine` (default)
+- `STT_BACKEND=whisper`
+
+#### TTS
+- `TTS_BACKEND=cosyvoice` (default)
+- `TTS_BACKEND=vibevoice`
+
+#### LLM
+- HF model: set `VLLM_MODEL=...`
+- GGUF: set `GGUF_MODEL_URL=https://huggingface.co/<repo>/resolve/<rev>/<file>.gguf` and optionally `VLLM_TOKENIZER=...`
 
 ### Testing
 

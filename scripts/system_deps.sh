@@ -11,9 +11,14 @@ echo ">>> Installing system dependencies..."
 apt-get update -qq
 
 # Install required packages
-RUN apt-get update && apt-get install -y \
-    ffmpeg libsndfile1 git \
-    python3 python3-pip \
+apt-get install -y -qq \
+    ffmpeg \
+    libsndfile1 \
+    git \
+    python3 \
+    python3-pip \
+    sox \
+    libsox-dev \
     && rm -rf /var/lib/apt/lists/*
 
 echo ">>> System dependencies installed successfully."

@@ -10,20 +10,44 @@ llmcompressor
 
 # Whisper Service
 faster-whisper
+# CosyVoice imports `whisper` in its frontend module.
+openai-whisper
 tokenizers
 
 # TTS Service (VibeVoice)
 transformers>=4.41.0,<4.56
+# CosyVoice upstream pins diffusers==0.29.0; we keep our minimum compatible range.
 diffusers>=0.27.0
 soundfile
 librosa
 accelerate
+
+# CosyVoice (minimal runtime deps)
+# NOTE: CosyVoice imports `modelscope.snapshot_download` internally (even if we only use HF).
+modelscope
+hydra-core
+omegaconf
+HyperPyYAML
+inflect
+wetext
+conformer==0.3.2
+x-transformers
+pyworld
+# Needed by Matcha-TTS utils imported by CosyVoice during YAML instantiation
+lightning
+gdown
+matplotlib
+wget
 
 # API & Server
 fastapi
 uvicorn
 python-multipart
 runpod
+
+# Tests
+pytest
+requests
 
 # Utilities & Infrastructure
 huggingface-hub
