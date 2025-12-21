@@ -19,7 +19,18 @@ source .venv/bin/activate
 
 echo ">>> Installing dependencies from requirements.txt..."
 uv pip install --upgrade pip --quiet
-uv pip install -r requirements.txt
+
+# Install main project deps + CosyVoice runtime deps (CosyVoice is vendored under external/cosyvoice)
+# Using a unified env keeps all services in one runtime.
+#
+# IMPORTANT:
+# We do NOT install external/cosyvoice/requirements.txt directly, because it pins
+# torch/torchaudio to versions that conflict with vLLM.
+uv pip install -r requirements.txt -r requirements.cosyvoice.txt
+
+# Install openai-whisper without pulling in its (conflicting) dependency constraints.
+# We rely on torch/triton chosen by vLLM.
+uv pip install --no-deps openai-whisper==20231117
 
 echo ">>> Setup completed successfully."
 echo "Environment: .venv"

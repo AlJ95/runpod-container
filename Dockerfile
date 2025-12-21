@@ -22,6 +22,11 @@ COPY . .
 # Create voices directory + external
 RUN mkdir -p voices external
 
+# We need git for the build-time clone of CosyVoice
+RUN apt-get update -qq && \
+    apt-get install -y -qq git && \
+    rm -rf /var/lib/apt/lists/*
+
 # Build-time clone of CosyVoice (includes Matcha-TTS submodule)
 RUN rm -rf external/cosyvoice && \
     git clone --recursive https://github.com/FunAudioLLM/CosyVoice.git external/cosyvoice
@@ -32,7 +37,7 @@ RUN apt-get update -qq && \
     pkg-config \
     build-essential \
     cmake \
-    git \
+    sox libsox-dev \
     libavdevice-dev \
     libavfilter-dev \
     libavformat-dev \

@@ -10,8 +10,10 @@ llmcompressor
 
 # Whisper Service
 faster-whisper
-# CosyVoice imports `whisper` in its frontend module.
-openai-whisper
+# NOTE:
+# openai-whisper has a strict dependency on `triton<3`, but vLLM requires Triton 3.x
+# via torch==2.8. We therefore install openai-whisper separately with `--no-deps`
+# in scripts/setup.sh.
 tokenizers
 
 # TTS Service (VibeVoice)
