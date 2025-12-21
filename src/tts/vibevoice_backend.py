@@ -25,10 +25,20 @@ class VibeVoiceBackend:
     def __init__(self, cfg: VibeVoiceConfig, device: str):
         # Import locally to avoid loading if unused
         # VibeVoice lives in external/vibevoice and is importable as package `vibevoice`.
-        from vibevoice.modular.modeling_vibevoice_inference import (
-            VibeVoiceForConditionalGenerationInference,
-        )
-        from vibevoice.processor.vibevoice_processor import VibeVoiceProcessor
+        try:
+            from vibevoice.modular.modeling_vibevoice_inference import (
+                VibeVoiceForConditionalGenerationInference,
+            )
+            from vibevoice.processor.vibevoice_processor import VibeVoiceProcessor
+        except ImportError:
+            # Fallback: try importing from external/vibevoice directly
+            import sys
+            import os
+            sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', '..', 'external'))
+            from vibevoice.modular.modeling_vibevoice_inference import (
+                VibeVoiceForConditionalGenerationInference,
+            )
+            from vibevoice.processor.vibevoice_processor import VibeVoiceProcessor
 
         self.device = device
 

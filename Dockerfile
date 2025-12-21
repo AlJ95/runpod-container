@@ -51,6 +51,9 @@ RUN apt-get update -qq && \
 RUN chmod +x scripts/setup.sh && \
     ./scripts/setup.sh
 
+# Install vibevoice package in development mode
+RUN pip install -e external/vibevoice
+
 # Make scripts executable
 RUN chmod +x scripts/*.sh
 
