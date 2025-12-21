@@ -28,6 +28,15 @@ uv pip install --upgrade pip --quiet
 # torch/torchaudio to versions that conflict with vLLM.
 uv pip install -r requirements.txt -r requirements.cosyvoice.txt
 
+# Install VibeVoice package in development mode
+if [ -d "external/vibevoice" ]; then
+    echo ">>> Installing VibeVoice package..."
+    uv pip install -e external/vibevoice
+else
+    echo "ERROR: VibeVoice directory not found at external/vibevoice"
+    exit 1
+fi
+
 # Install openai-whisper without pulling in its (conflicting) dependency constraints.
 # We rely on torch/triton chosen by vLLM.
 uv pip install --no-deps openai-whisper==20231117
