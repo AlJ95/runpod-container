@@ -1,32 +1,27 @@
 #!/bin/bash
-# Unified Python Environment Setup Script
-# Sets up a single virtual environment for all services
-
 set -e
 
 echo ">>> Setting up unified Python environment..."
 
-# Create virtual environment
+# 1. Create and activate venv
 if [ ! -d ".venv" ]; then
-    echo ">>> Creating virtual environment (.venv)..."
     uv venv .venv
-else
-    echo ">>> Virtual environment (.venv) already exists."
 fi
-
-# Activate environment
 source .venv/bin/activate
 
-echo ">>> Installing dependencies from requirements.txt..."
+# 2. Upgrade pip
 uv pip install --upgrade pip --quiet
 
-# Install main project deps + CosyVoice runtime deps (CosyVoice is vendored under external/cosyvoice)
-# Using a unified env keeps all services in one runtime.
-#
-# IMPORTANT:
-# We do NOT install external/cosyvoice/requirements.txt directly, because it pins
-# torch/torchaudio to versions that conflict with vLLM.
+# 3. PRE-INSTALL TORCH (Critical Fix)
+# flash-attn requires torch to be present to build its wheels
+echo ">>> Pre-installing torch and setuptools..."
+uv pip install torch setuptools wheel
+
+# 4. Install the rest of the requirements
+echo ">>> Installing remaining dependencies..."
+# uv will skip torch since it's already satisfied
 uv pip install -r requirements.txt -r requirements.cosyvoice.txt
+
 
 # Install VibeVoice package in development mode
 if [ -d "external/vibevoice" ]; then
