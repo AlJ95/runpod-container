@@ -35,12 +35,15 @@ class VibeVoiceBackend:
         logger.info(f"[VibeVoice] Loading processor from {cfg.model_name}")
         self.processor = VibeVoiceProcessor.from_pretrained(cfg.model_name, token=cfg.hf_token)
 
-        if device == "cuda":
-            load_dtype = torch.bfloat16
-            attn_impl = "flash_attention_2"
-        else:
-            load_dtype = torch.float32
-            attn_impl = "sdpa"
+        # Commented out due to issues with flash attention installation
+        load_dtype = torch.float32
+        attn_impl = "sdpa"
+        # if device == "cuda":
+        #     load_dtype = torch.bfloat16
+        #     attn_impl = "flash_attention_2"
+        # else:
+        #     load_dtype = torch.float32
+        #     attn_impl = "sdpa"
 
         logger.info(f"[VibeVoice] Loading model with dtype={load_dtype}, attn={attn_impl}")
 

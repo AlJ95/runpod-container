@@ -7,7 +7,7 @@ torchaudio
 vllm==0.10.2
 bitsandbytes
 llmcompressor
-flash-attn
+# flash-attn # makes problems
 
 # Whisper Service
 faster-whisper
