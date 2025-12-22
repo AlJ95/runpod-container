@@ -14,7 +14,7 @@ def _download_gguf_to_workspace(url: str) -> str:
 
     # Example:
     # https://huggingface.co/unsloth/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-UD-Q6_K_XL.gguf
-    m = re.match(r"https?://huggingface\\.co/([^/]+/[^/]+)/resolve/([^/]+)/(.+)", url)
+    m = re.match(r"https?://huggingface\.co/([^/]+/[^/]+)/resolve/([^/]+)/(.+)", url)
     if not m:
         raise ValueError(
             "GGUF_MODEL_URL must be a HuggingFace resolve URL like: "
